@@ -1,100 +1,111 @@
-# 03 JavaScript: Password Generator
+// Assignment Code
+var generateBtn = document.querySelector("#generate");
 
-## Your Task
+function randomInt(min, max) {
+  if (!max) {
+    max = min
+    min = 0
+  }
 
-This week's Challenge requires you to modify starter code to create an application that enables employees to generate random passwords based on criteria that they’ve selected. This app will run in the browser and will feature dynamically updated HTML and CSS powered by JavaScript code that you write. It will have a clean and polished, responsive user interface that adapts to multiple screen sizes.
 
-The password can include special characters. If you’re unfamiliar with these, see this [list of password special characters](https://www.owasp.org/index.php/Password_special_characters) from the OWASP Foundation.
+  var rand = Math.random()
+  return Math.floor(min * (1 - rand) + rand * max)
+}
 
-## User Story
+function getRandomItem(list) {
+  return list[randomInt(list.length)]
+}
 
-```
-AS AN employee with access to sensitive data
-I WANT to randomly generate a password that meets certain criteria
-SO THAT I can create a strong password that provides greater security
-```
 
-## Acceptance Criteria
+function generatePassword() {
 
-```
-GIVEN I need a new, secure password
-WHEN I click the button to generate a password
-THEN I am presented with a series of prompts for password criteria
-WHEN prompted for password criteria
-THEN I select which criteria to include in the password
-WHEN prompted for the length of the password
-THEN I choose a length of at least 8 characters and no more than 128 characters
-WHEN asked for character types to include in the password
-THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-WHEN I answer each prompt
-THEN my input should be validated and at least one character type should be selected
-WHEN all prompts are answered
-THEN a password is generated that matches the selected criteria
-WHEN the password is generated
-THEN the password is either displayed in an alert or written to the page
-```
 
-## Mock-Up
 
-The following image shows the web application's appearance and functionality:
+  console.log(userInput)
 
-![The Password Generator application displays a red button to "Generate Password".](./Assets/03-javascript-homework-demo.png)
+  //while (true)
 
-## Grading Requirements
+  var userInput = window.prompt("How long do you want your password to be?")
 
-> **Note**: If a Challenge assignment submission is marked as “0”, it is considered incomplete and will not count towards your graduation requirements. Examples of incomplete submissions include the following:
->
-> * A repository that has no code
->
-> * A repository that includes a unique name but nothing else
->
-> * A repository that includes only a README file but nothing else
->
-> * A repository that only includes starter code
+  //User exited the prompt
+  if (userInput === null) {
+    return
+  }
 
-This Challenge is graded based on the following criteria: 
+  var passwordLength = parseInt(userInput)
 
-### Technical Acceptance Criteria: 40%
+  if (isNaN(passwordLength)) {
+    window.alert("That's not a number!")
+  } else if (passwordLength < 8 || passwordLength > 128) {
+    window.alert("Invalid password length. Length should be between 8 and 128 characters.")
+  }
 
-* Satisfies all of the preceding acceptance criteria.
 
-### Deployment: 32%
+  var userWantsNumbers = window.confirm("Would you like to include numbers in your password?")
+  var userWantsSymbols = window.confirm("Would you like to include symbols in your password?")
+  var userWantsLowercase = window.confirm("Would you like to include lowercase letters in your password?")
+  var userWantsUppercase = window.confirm("Would you like to include uppercase letters in your password?")
 
-* Application deployed at live URL.
+  var numberList = ["0", "1", "2", "3", "4", "5", "6", "8", "9"]
+  var symbolList = ["!", "@", "#", "$", "%", "^", "&", "*"]
+  var lowercaseList = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+  var uppercaseList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
-* Application loads with no errors.
+  var optionsCart = []
 
-* Application GitHub URL submitted.
 
-* GitHub repository that contains application code.
+  if (userWantsNumbers === true) {
+    optionsCart.push(numberList)
 
-### Application Quality: 15%
+  }
 
-* Application user experience is intuitive and easy to navigate.
+  if (userWantsSymbols === true) {
+    optionsCart.push(symbolList)
+  }
 
-* Application user interface style is clean and polished.
+  if (userWantsLowercase === true) {
+    optionsCart.push(lowercaseList)
+  }
 
-* Application resembles the mock-up functionality provided in the Challenge instructions.
+  if (userWantsUppercase === true) {
+    optionsCart.push(uppercaseList)
+  }
 
-### Repository Quality: 13%
+  if (optionsCart.length === 0) {
+    optionsCart.push(lowercaseList)
 
-* Repository has a unique name.
+  }
 
-* Repository follows best practices for file structure and naming conventions.
+  var generatedPassword = ""
 
-* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
+  for (var i = 0; i < passwordLength; i++) {
+    Math.random()
+    var randomList = getRandomItem(optionsCart)
+    var randomChar = getRandomItem(randomList)
+    generatedPassword += randomChar
+  }
 
-* Repository contains multiple descriptive commit messages.
+  console.log(generatedPassword)
 
-* Repository contains quality readme file with description, screenshot, and link to deployed application.
+  return generatedPassword
+}
 
-## Review
 
-You are required to submit the following for review:
 
-* The URL of the deployed application.
+// Write password to the #password input
+function writePassword() {
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
 
-* The URL of the GitHub repository, with a unique name and a readme describing the project.
+  if (password) {
+    passwordText.value = password;
+  }
 
-- - -
-© 2022 Trilogy Education Services, LLC, a 2U, Inc. brand. Confidential and Proprietary. All Rights Reserved.
+
+}
+
+//Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
+
+
+
