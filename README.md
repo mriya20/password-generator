@@ -1,3 +1,7 @@
+Password Generator Starter Code
+
+
+
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
